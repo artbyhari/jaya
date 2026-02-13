@@ -1,0 +1,1017 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scissorbella by Jaya | Slow Luxury Hair Goa</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Montserrat:wght@200;300;400;500;600&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+        /* --- DESIGN SYSTEM --- */
+        :root {
+            --bg-dark: #051A14;      /* Deep Forest Green */
+            --bg-card: #0c261f;      /* Lighter Green */
+            --accent-pink: #FABEC0;  /* Brand Pink */
+            --text-white: #FFFFFF;
+            --text-gray: #a8b3af;
+            
+            --font-serif: 'Cormorant Garamond', serif;
+            --font-sans: 'Montserrat', sans-serif;
+            --font-mono: 'Space Mono', monospace; /* New Data Font */
+        }
+
+        body {
+            background-color: var(--bg-dark);
+            color: var(--text-white);
+            font-family: var(--font-sans);
+            overflow-x: hidden;
+        }
+
+        /* TYPOGRAPHY OVERRIDES */
+        h1, h2, h3, h4 { font-family: var(--font-serif); }
+        .font-mono { font-family: var(--font-mono); }
+        
+        /* IMAGE HOVER EFFECTS */
+        .img-zoom-container {
+            overflow: hidden;
+            position: relative;
+        }
+        .img-zoom-container img {
+            transition: transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+        .img-zoom-container:hover img {
+            transform: scale(1.05);
+        }
+        .overlay-fade {
+            background: linear-gradient(to top, rgba(5,26,20,0.9), transparent);
+            opacity: 0;
+            transition: opacity 0.4s ease;
+        }
+        .img-zoom-container:hover .overlay-fade {
+            opacity: 1;
+        }
+
+        /* VIDEO STORIES CONTAINER */
+        .story-container {
+            aspect-ratio: 9/16;
+            background-color: #111;
+            border-radius: 4px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.05);
+            transition: transform 0.3s ease;
+        }
+        .story-container:hover {
+            transform: translateY(-5px);
+            border-color: var(--accent-pink);
+        }
+        .play-btn {
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%);
+            width: 50px; height: 50px;
+            background: rgba(255,255,255,0.2);
+            backdrop-filter: blur(4px);
+            border-radius: 50%;
+            display: flex; align-items: center; justify-content: center;
+            transition: all 0.3s;
+        }
+        .story-container:hover .play-btn {
+            background: var(--accent-pink);
+            color: #051A14;
+            transform: translate(-50%, -50%) scale(1.1);
+        }
+
+        /* CUSTOM BUTTONS */
+        .btn-chic {
+            border: 1px solid var(--accent-pink);
+            color: var(--accent-pink);
+            padding: 14px 36px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 500;
+            transition: all 0.3s;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+            cursor: pointer;
+            background: transparent;
+        }
+        .btn-chic::before {
+            content: '';
+            position: absolute;
+            top: 0; left: 0; width: 0%; height: 100%;
+            background: var(--accent-pink);
+            transition: width 0.3s ease;
+            z-index: -1;
+        }
+        .btn-chic:hover::before { width: 100%; }
+        .btn-chic:hover { color: #051A14; }
+
+        .btn-fill {
+            background: var(--accent-pink);
+            color: #051A14;
+            border: 1px solid var(--accent-pink);
+            padding: 14px 36px;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.3s;
+        }
+        .btn-fill:hover { opacity: 0.9; }
+
+        /* FORM INPUTS */
+        .input-chic {
+            width: 100%;
+            background: rgba(255,255,255,0.03);
+            border: 1px solid rgba(255,255,255,0.1);
+            padding: 14px;
+            color: white;
+            font-family: var(--font-sans);
+            font-size: 14px;
+            transition: border-color 0.3s;
+        }
+        .input-chic:focus {
+            outline: none;
+            border-color: var(--accent-pink);
+            background: rgba(255,255,255,0.05);
+        }
+        select.input-chic {
+            appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 1rem center;
+            background-size: 1em;
+        }
+
+        /* PAGE SECTIONS */
+        .section-view {
+            display: none;
+            opacity: 0;
+            animation: fadeIn 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+            padding-top: 100px;
+            min-height: 100vh;
+        }
+        .section-view.active { display: block; }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* NAVIGATION STYLES */
+        .nav-link {
+            position: relative;
+            padding-bottom: 5px;
+            cursor: pointer;
+            font-size: 12px;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            opacity: 0.7;
+            transition: opacity 0.3s;
+        }
+        .nav-link:hover, .nav-link.active-link { opacity: 1; color: var(--accent-pink); }
+        .nav-link::after {
+            content: ''; position: absolute; bottom: 0; left: 0; width: 0; height: 1px;
+            background: var(--accent-pink); transition: width 0.3s;
+        }
+        .nav-link.active-link::after { width: 100%; }
+
+        /* ACCORDION */
+        .accordion-content {
+            max-height: 0;
+            overflow: hidden;
+            transition: max-height 0.4s ease-out;
+        }
+        .accordion-content.open {
+            max-height: 1000px; /* Increased for longer text */
+        }
+
+        /* MASONRY FOR TESTIMONIALS */
+        .masonry-grid {
+            column-count: 1;
+            column-gap: 1.5rem;
+        }
+        @media (min-width: 768px) {
+            .masonry-grid { column-count: 2; }
+        }
+        @media (min-width: 1024px) {
+            .masonry-grid { column-count: 3; }
+        }
+        .masonry-item {
+            break-inside: avoid;
+            margin-bottom: 1.5rem;
+        }
+
+        /* SCROLLBAR */
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: var(--bg-dark); }
+        ::-webkit-scrollbar-thumb { background: #1f4d3d; border-radius: 10px; }
+        
+        .bw-filter { filter: grayscale(100%); transition: filter 0.5s; }
+        .bw-filter:hover { filter: grayscale(0%); }
+    </style>
+</head>
+<body>
+
+    <!-- FIXED NAVIGATION -->
+    <nav class="fixed w-full z-50 bg-[#051A14]/95 backdrop-blur-md border-b border-white/5 transition-all duration-300" id="navbar">
+        <div class="max-w-[1400px] mx-auto px-6 h-20 flex justify-between items-center">
+            
+            <!-- Logo -->
+            <div class="flex items-center gap-3 cursor-pointer" onclick="navigateTo('home')">
+                <img src="Logo.png" alt="Scissorbella Logo" class="h-10 w-auto object-contain rounded-sm opacity-90 border border-white/10">
+                <div class="leading-none hidden sm:block">
+                    <span class="block font-serif text-xl tracking-wide text-white">Scissorbella</span>
+                    <span class="block text-[9px] uppercase tracking-[0.3em] text-pink-300">By Jaya</span>
+                </div>
+            </div>
+
+            <!-- Desktop Menu -->
+            <div class="hidden md:flex items-center gap-10">
+                <span onclick="navigateTo('home')" class="nav-link active-link" id="nav-home">Home</span>
+                <span onclick="navigateTo('about')" class="nav-link" id="nav-about">The Artist</span>
+                <span onclick="navigateTo('services')" class="nav-link" id="nav-services">Menu</span>
+                <span onclick="navigateTo('testimonials')" class="nav-link" id="nav-testimonials">Loveletters</span>
+                <span onclick="navigateTo('faq')" class="nav-link" id="nav-faq">FAQ</span>
+            </div>
+
+            <!-- Mobile Menu Toggle (Hidden in favor of floating nav but kept for structure) -->
+            <div class="md:hidden"></div>
+        </div>
+        
+        <!-- Mobile Dropdown -->
+        <div id="mobile-menu" class="hidden absolute top-20 left-0 w-full bg-[#051A14] border-b border-white/10 p-8 flex flex-col gap-6 text-center z-40 shadow-2xl h-screen">
+            <span onclick="navigateTo('home'); toggleMobileMenu()" class="text-white text-lg font-serif italic border-b border-white/5 pb-2">Home</span>
+            <span onclick="navigateTo('about'); toggleMobileMenu()" class="text-white text-lg font-serif italic border-b border-white/5 pb-2">The Artist</span>
+            <span onclick="navigateTo('services'); toggleMobileMenu()" class="text-white text-lg font-serif italic border-b border-white/5 pb-2">Menu</span>
+            <span onclick="navigateTo('testimonials'); toggleMobileMenu()" class="text-white text-lg font-serif italic border-b border-white/5 pb-2">Loveletters</span>
+            <span onclick="navigateTo('faq'); toggleMobileMenu()" class="text-white text-lg font-serif italic border-b border-white/5 pb-2">FAQ</span>
+        </div>
+    </nav>
+
+    <!-- =======================================================
+         VIEW 1: HOME
+    ======================================================== -->
+    <div id="home" class="section-view active !pt-0">
+        <div class="relative h-screen min-h-[600px] w-full flex items-center justify-center overflow-hidden">
+            <!-- Background Image -->
+            <div class="absolute inset-0 z-0">
+                <img src="JayaSTYLE.JPG" 
+                     class="w-full h-full object-cover object-top opacity-60 scale-105" 
+                     alt="Slow Luxury Hair Goa">
+                <div class="absolute inset-0 bg-gradient-to-b from-[#051A14]/70 via-transparent to-[#051A14]"></div>
+            </div>
+
+            <!-- Hero Content -->
+            <div class="relative z-10 text-center px-6 max-w-5xl mx-auto mt-16">
+                <h1 class="text-6xl md:text-8xl lg:text-9xl leading-[0.9] mb-8 text-white font-serif tracking-tight">
+                    SLOW IS THE <br>
+                    <span class="italic text-pink-300">REAL FAST.</span>
+                </h1>
+                
+                <div class="flex flex-wrap justify-center gap-3 md:gap-6 mb-12 text-[10px] md:text-xs uppercase tracking-[0.2em] text-gray-300 font-mono">
+                    <span>Slow Luxury Hair</span>
+                    <span class="text-pink-300">•</span>
+                    <span>Gender Neutral</span>
+                    <span class="text-pink-300">•</span>
+                    <span>Zero Heat</span>
+                    <span class="text-pink-300">•</span>
+                    <span>Absurdly Long Shelf Life</span>
+                </div>
+                
+                <div class="mb-10">
+                    <span class="inline-block border border-white/20 px-6 py-2 rounded-full text-xs uppercase tracking-widest text-white backdrop-blur-sm">Siolim, North Goa</span>
+                </div>
+
+                <div class="flex justify-center">
+                    <button onclick="navigateTo('services')" class="btn-chic">EXPLORE MENU</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 2: ABOUT (THE ARTIST)
+    ======================================================== -->
+    <div id="about" class="section-view">
+        <div class="max-w-[1200px] mx-auto px-6 pb-24 pt-12">
+            <div class="grid md:grid-cols-12 gap-12 items-start mb-24">
+                
+                <!-- Image Section (Mobile: Order 1) -->
+                <div class="md:col-span-5 relative sticky top-24 order-1 md:order-1">
+                    <div class="relative z-10 group">
+                        <!-- Black & White Photo Preferred -->
+                        <img src="JAYA.JPG" 
+                             alt="Jaya Joshi" 
+                             class="w-full h-[600px] object-cover rounded-sm bw-filter shadow-2xl">
+                    </div>
+                    <div class="absolute top-6 -left-6 w-full h-full border border-pink-300/30 -z-0 hidden md:block"></div>
+                </div>
+
+                <!-- Text Section (Mobile: Order 2) -->
+                <div class="md:col-span-7 md:pl-8 order-2 md:order-2">
+                    <h2 class="text-5xl md:text-6xl text-white font-serif mb-8">HI, I'M <span class="text-pink-300 italic">JAYA!</span></h2>
+                    
+                    <div class="space-y-6 text-gray-300 text-lg font-light leading-relaxed">
+                        <p>
+                            True story: in 2016, Scissorbella – the Goddess, was immaculately conceived and birthed through me.
+                        </p>
+                        <p>
+                            But for the first 20 years, life happened by default. My Gemini Sun gifted me the silver tongue to script a life of a PR specialist in the spotlight. I traded peace of mind for Fendi bags and world travels. I was very, VERY good at the hustle—even if it meant peddling ‘women empowerment’ in a fairness cream jar.
+                        </p>
+                        <p>
+                            At 42, hairdressing chose me. It shredded the old script and became my life’s most successful love story. But every love story, no matter how grand, is tested with shit sandwiches—the stark realities.
+                        </p>
+                        <p>
+                            The real question isn't ‘what do I love?’ but ‘what do I love enough to eat those sandwiches for?’
+                        </p>
+                        <p class="text-xl text-white font-serif italic">
+                            I love hair. More than I love my ego.
+                        </p>
+                        <p>
+                            In other words, I’ll keep crafting precision cuts and creative colours with absurdly long shelf lives. This grit is the soul of Scissorbella. She is a quiet counter-narrative to the hyped quick-fix culture—stubbornly precise, ardently compassionate and will put your hair’s integrity before her monetary gains.
+                        </p>
+                        <p class="font-serif text-2xl text-pink-300 mt-4">Always.<br>Hugs, Jaya</p>
+                    </div>
+
+                    <!-- Credentials Accordion -->
+                    <div class="mt-12 border-t border-white/10">
+                        <div class="border-b border-white/10">
+                            <div class="flex justify-between items-center py-4 cursor-pointer hover:text-pink-300 transition-colors" onclick="toggleAccordion('cred-1')">
+                                <span class="uppercase tracking-widest text-sm">Credentials & Awards</span>
+                                <i class="fas fa-plus text-xs"></i>
+                            </div>
+                            <div id="cred-1" class="accordion-content">
+                                <ul class="text-sm text-gray-400 font-mono space-y-3 pb-6 pl-4 border-l border-pink-300/30 ml-2">
+                                    <li>• 30-week Diploma, Sassoon Academy London</li>
+                                    <li>• Academy Courses – Salon Cut & Colour, Sassoon Academy</li>
+                                    <li>• NVQ Level 3 Diploma, City & Guilds London</li>
+                                    <li>• 16-week Post Graduate Course, Sassoon Academy</li>
+                                    <li class="text-pink-300 mt-2">• Award: Best Colour (2017)</li>
+                                    <li class="text-pink-300">• Award: Best Editorial Shoot (2018)</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 3: THE METHOD -->
+            <div class="py-24 border-t border-white/5">
+                <div class="text-center max-w-3xl mx-auto mb-16">
+                    <h2 class="text-4xl md:text-5xl text-white font-serif mb-4">The Scissorbella Method</h2>
+                    <p class="text-gray-400 uppercase tracking-widest text-xs">A quiet counter-narrative to the "quick-fix" culture</p>
+                </div>
+
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="space-y-12">
+                        <div class="group">
+                            <h3 class="text-2xl text-white font-serif mb-3 group-hover:text-pink-300 transition-colors">Naked Honesty</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                The cleverest way to do business is the most honest way. Scissorbella does not upsell, criticize your hair to push a product, or dabble with harsh chemicals. There is no upselling and no agenda. The only thing on the table is her craft. Your hair is her canvas and protecting its health, helps Jaya’s livelihood.
+                            </p>
+                        </div>
+                        <div class="group">
+                            <h3 class="text-2xl text-white font-serif mb-3 group-hover:text-pink-300 transition-colors">Deep Dive Consultation</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                You are a partner, not a doll head. Expect a conversation, not a lecture. To arrive at the best suited cut and/or colour, we balance your bone structure, face shape, hair texture, density with your lifestyle non-negotiables, bad habits, hair’s health and history. We decide together. You own the result.
+                            </p>
+                        </div>
+                        <div class="group">
+                            <h3 class="text-2xl text-white font-serif mb-3 group-hover:text-pink-300 transition-colors">The Slow Tempo</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                We aren’t aiming for "instant." We are aiming for enduring. Slow is the real fast. A mindful slow colour fades gracefully and fiercely protects the hair health. A structural cut holds its shape for months; It’s a long-term investment to ensure that every rupee you spend at Scissorbella works harder and lasts longer.
+                            </p>
+                        </div>
+                    </div>
+                    <div class="space-y-12">
+                        <div class="group">
+                            <h3 class="text-2xl text-white font-serif mb-3 group-hover:text-pink-300 transition-colors">Integrity First</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                If a colour service threatens your hair health, Scissorbella simply won’t do it. She’s protecting her canvas and your long-term investment.
+                            </p>
+                        </div>
+                        <div class="group">
+                            <h3 class="text-2xl text-white font-serif mb-3 group-hover:text-pink-300 transition-colors">The Long Game</h3>
+                            <p class="text-gray-400 text-sm leading-relaxed">
+                                You won’t leave with a "one-week wonder." You’ll walk out with a structural hair colour or cut designed for a ridiculously long shelf life.
+                            </p>
+                        </div>
+                        <div class="h-full flex items-center justify-center">
+                            <img src="V-1.webp" class="w-full h-64 object-cover opacity-60 grayscale rounded-sm">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 3: SERVICES (THE MENU)
+    ======================================================== -->
+    <div id="services" class="section-view">
+        <div class="max-w-[1400px] mx-auto px-6 pb-24">
+            <div class="text-center mb-16 max-w-3xl mx-auto">
+                <span class="text-pink-300 uppercase tracking-[0.3em] text-xs">Slow Luxury</span>
+                <h2 class="text-5xl md:text-6xl text-white font-serif mt-4 mb-6">Menu of Services</h2>
+                <p class="text-gray-400 font-light leading-relaxed">
+                    Scissorbella crafts hair that has an absurdly long shelf life and requires zero heat styling and minimal maintenance. Price is not a function of length, texture, or gender. It is a function of time.
+                </p>
+            </div>
+
+            <!-- MANDATORY PREREQUISITES BANNER -->
+            <div class="bg-pink-300/10 border border-pink-300/30 p-6 rounded-sm mb-12 flex flex-col md:flex-row gap-6 items-start md:items-center">
+                <div class="text-pink-300 text-2xl"><i class="fas fa-exclamation-triangle"></i></div>
+                <div>
+                    <h4 class="text-white font-serif text-lg mb-2">MANDATORY PRE-REQUISITES</h4>
+                    <div class="text-xs text-gray-300 space-y-1 font-mono">
+                        <p><strong>Deep Dive Pre-Colour Analysis:</strong> ₹2,500 (Deducted from bill). Required for Creative Colour. We assess strand elasticity 24 hours in advance.</p>
+                        <p><strong>Pre-Colour Patch Test:</strong> ₹500 (Deducted from bill). Required for Root Tints. Safety is non-negotiable.</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- CATEGORY CARDS GRID -->
+            <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- CARD 1: EXPLORE -->
+                <div class="bg-[#0c261f] p-8 rounded-sm border border-white/5 hover:border-pink-300/30 transition-all">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest mb-4 block">01. Start Here</span>
+                    <h3 class="text-2xl text-white font-serif mb-6">Explore</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Discover Scissorbella</h4>
+                                <span class="font-mono text-pink-300 text-xs">Complimentary</span>
+                            </div>
+                            <p class="text-xs text-gray-400 leading-relaxed mb-2">15 mins video call</p>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                New to Scissorbella? Let’s connect before we decide to cut or colour. This 15-minute complimentary chat is designed to understand your hair goals and see if our slow luxury philosophy aligns with your needs.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 2: CUT -->
+                <div class="bg-[#0c261f] p-8 rounded-sm border border-white/5 hover:border-pink-300/30 transition-all">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest mb-4 block">02. Structure</span>
+                    <h3 class="text-2xl text-white font-serif mb-6">Cut</h3>
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Bespoke Premium Cut</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹5,000+</span>
+                            </div>
+                            <p class="text-xs font-mono text-gray-500 mb-2">90 mins | +₹1,000/hr</p>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Detailed on-chair consultation to arrive at a structural cut suited for your face, texture, density, personality, and habits.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Refresh Cut</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹3,500+</span>
+                            </div>
+                            <p class="text-xs font-mono text-gray-500 mb-2">Returning Clients Only (60 days)</p>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Perfect for maintaining the shape and health of your style without the full restructuring.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Junior Cut (7-13yrs)</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹2,000+</span>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                A premium grooming experience for young ones.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Fringe Trim</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹800</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 3: COLOUR -->
+                <div class="bg-[#0c261f] p-8 rounded-sm border border-white/5 hover:border-pink-300/30 transition-all">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest mb-4 block">03. Pigment</span>
+                    <h3 class="text-2xl text-white font-serif mb-6">Colour</h3>
+                    <div class="space-y-8">
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Premium Creative Colour</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹20,000+</span>
+                            </div>
+                            <p class="text-xs font-mono text-gray-500 mb-2">4-Hour Base | +₹5,000/hr</p>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Balayage, Highlights, Vivids. Scissorbella colours your haircut using "Slow Colouring". Includes bond multiplier treatments.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Root Tint</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹6,000+</span>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Root touch up within 1 inch.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Root + Ends Refresh</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹8,000+</span>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Full head root touch up and length blending.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Global Glossing</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹10,000+</span>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Demi-permanent colour for shine and refresh.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 4: CARE & STYLE -->
+                <div class="bg-[#0c261f] p-8 rounded-sm border border-white/5 hover:border-pink-300/30 transition-all">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest mb-4 block">04. Health</span>
+                    <h3 class="text-2xl text-white font-serif mb-6">Care & Style</h3>
+                    <div class="space-y-6">
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Haircare Rituals</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹2,500</span>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                High-performance treatments from eco-ethical brands to structurally repair bonds.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Wash & Style</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹2,500</span>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Embrace natural curls with the Scissorbella Curly Method OR get a gentle blowout.
+                            </p>
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-baseline mb-2">
+                                <h4 class="text-white">Wash & Blast Dry</h4>
+                                <span class="font-mono text-pink-300 text-xs">₹1,500</span>
+                            </div>
+                            <p class="text-sm text-gray-400 leading-relaxed">
+                                Luxury cleanse followed by a quick blast dry.
+                            </p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- CARD 5: ONLINE -->
+                <div class="bg-[#0c261f] p-8 rounded-sm border border-white/5 hover:border-pink-300/30 transition-all">
+                    <span class="text-xs text-gray-500 uppercase tracking-widest mb-4 block">05. Digital</span>
+                    <h3 class="text-2xl text-white font-serif mb-6">Online</h3>
+                    <div>
+                        <div class="flex justify-between items-baseline mb-2">
+                            <h4 class="text-white">Scissorbella Online</h4>
+                            <span class="font-mono text-pink-300 text-xs">₹1,500</span>
+                        </div>
+                        <p class="text-xs font-mono text-gray-500 mb-2">30 Minutes</p>
+                        <p class="text-sm text-gray-400 leading-relaxed">
+                            Best suited if you are unable to visit Scissorbella, OR a curly hair client needing live guidance in styling your hair at home.
+                        </p>
+                    </div>
+                </div>
+
+                <!-- CARD 6: MEMBERSHIP -->
+                <div class="bg-gradient-to-br from-pink-300/10 to-[#0c261f] p-8 rounded-sm border border-pink-300/30 hover:border-pink-300 transition-all">
+                    <span class="text-xs text-pink-300 uppercase tracking-widest mb-4 block">06. VIP</span>
+                    <h3 class="text-2xl text-white font-serif mb-4">The Tresspassers’ Club</h3>
+                    <p class="text-sm text-white leading-relaxed mb-6">
+                        Unlock premium access to slow luxury.
+                    </p>
+                    <div class="bg-black/30 p-4 rounded mb-6">
+                        <p class="text-white font-mono text-sm">Pay ₹35,000</p>
+                        <p class="text-pink-300 font-mono text-lg">Get ₹40,000 Credit</p>
+                    </div>
+                    <p class="text-xs text-gray-400">
+                        Terms: Timeless (Never Expires). Shareable with friends & family.
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- SECTION 7: SPECIFICS -->
+            <div class="mt-24">
+                <div class="grid md:grid-cols-2 gap-12">
+                    <div class="bg-[#0c261f] p-8 rounded-sm border-l-2 border-pink-300">
+                        <h4 class="text-xl text-white font-serif mb-4">The Cut: Zero-Heat Architecture</h4>
+                        <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                            A long-term investment.
+                        </p>
+                        <p class="text-white text-sm font-bold mb-2">The 15-Day Ecstatic Guarantee:</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            If your hair makes you feel anything less than ecstatic, come back within 15 days. She will welcome you to make necessary adjustments (at no extra cost) until you’re obsessed.
+                        </p>
+                    </div>
+                    <div class="bg-[#0c261f] p-8 rounded-sm border-l-2 border-pink-300">
+                        <h4 class="text-xl text-white font-serif mb-4">The Slow Colour: Pigment with Integrity</h4>
+                        <p class="text-white text-sm font-bold mb-2">The 24-Hour Protocol:</p>
+                        <p class="text-gray-400 text-sm leading-relaxed">
+                            All creative colour services must be pre-booked 24 hours in advance for testing. We only proceed if the tests are encouraging. If your hair is screaming for help, we stall the pigment and pivot to hair restoration.
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- SECTION 8: VALUES -->
+            <div class="mt-24 text-center">
+                <div class="flex flex-col md:flex-row justify-center gap-12 text-center">
+                    <div class="max-w-xs mx-auto">
+                        <i class="fas fa-hourglass-half text-pink-300 text-2xl mb-4"></i>
+                        <h4 class="text-white font-serif text-lg mb-2">Slow is the Real Fast</h4>
+                        <p class="text-xs text-gray-400">Speed is traded for depth. Time is taken to do it right ensuring you spend less time fixing it at home.</p>
+                    </div>
+                    <div class="max-w-xs mx-auto">
+                        <i class="fas fa-leaf text-pink-300 text-2xl mb-4"></i>
+                        <h4 class="text-white font-serif text-lg mb-2">Easy Does It</h4>
+                        <p class="text-xs text-gray-400">Simplicity supports sustainability. Wash, wear, look badass and go.</p>
+                    </div>
+                    <div class="max-w-xs mx-auto">
+                        <i class="fas fa-hand-holding-heart text-pink-300 text-2xl mb-4"></i>
+                        <h4 class="text-white font-serif text-lg mb-2">Contract of Respect</h4>
+                        <p class="text-xs text-gray-400">Alignment. Sitting on the Scissorbella chair implies a contract of mutual respect.</p>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 4: TESTIMONIALS (LOVELETTERS)
+    ======================================================== -->
+    <div id="testimonials" class="section-view">
+        <div class="max-w-[1400px] mx-auto px-6 pb-24">
+            <h2 class="text-5xl text-white font-serif mb-12 text-center">Loveletters</h2>
+            
+            <div class="masonry-grid">
+                <!-- 1 -->
+                <div class="masonry-item bg-[#0c261f] p-6 rounded-sm border border-white/5 break-inside-avoid">
+                    <i class="fas fa-quote-left text-pink-300 text-xl mb-4"></i>
+                    <h4 class="text-white font-serif text-lg mb-2">Worth Travelling 10,000 miles</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        "I made a 10,000-mile round trip to see Scissorbella. She took my vague man-brief of 'something different' and knocked it out of the park, leaving me with a haircut and blonde highlights that strangers are still complimenting months later."
+                    </p>
+                    <span class="text-xs text-pink-300 uppercase tracking-widest">— Alex S.</span>
+                </div>
+
+                <!-- 2 -->
+                <div class="masonry-item bg-[#0c261f] p-6 rounded-sm border border-white/5 break-inside-avoid">
+                    <i class="fas fa-quote-left text-pink-300 text-xl mb-4"></i>
+                    <h4 class="text-white font-serif text-lg mb-2">The Master of Curls</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        "The curly haircut itself felt like a sculptor slowly chipping away to reveal its final form. I got a square short bob... it made me feel like a runway model. It wasn't just a cut; it was a mini-training session on how to take care of my curls better."
+                    </p>
+                    <span class="text-xs text-pink-300 uppercase tracking-widest">— Aditi B.</span>
+                </div>
+
+                <!-- 3 -->
+                <div class="masonry-item bg-[#0c261f] p-6 rounded-sm border border-white/5 break-inside-avoid">
+                    <i class="fas fa-quote-left text-pink-300 text-xl mb-4"></i>
+                    <h4 class="text-white font-serif text-lg mb-2">Gender-Agnostic Artistry</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        "There are haircuts, and then there are Jaya haircuts. What truly sets her apart is her gender-agnostic approach—there’s no ‘women’s cut’ or ‘men’s cut,’ just a damn good haircut tailored to you."
+                    </p>
+                    <span class="text-xs text-pink-300 uppercase tracking-widest">— Suman S.</span>
+                </div>
+
+                <!-- 4 -->
+                <div class="masonry-item bg-[#0c261f] p-6 rounded-sm border border-white/5 break-inside-avoid">
+                    <i class="fas fa-quote-left text-pink-300 text-xl mb-4"></i>
+                    <h4 class="text-white font-serif text-lg mb-2">Global Reputation</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        "I travel from Europe to sit in Jaya's chair because of her 'zero heat, zero maintenance' methods. She is a hair magician who restored the health of my hair with unique slow-colouring techniques."
+                    </p>
+                    <span class="text-xs text-pink-300 uppercase tracking-widest">— Hana</span>
+                </div>
+
+                <!-- 5 -->
+                <div class="masonry-item bg-[#0c261f] p-6 rounded-sm border border-white/5 break-inside-avoid">
+                    <i class="fas fa-quote-left text-pink-300 text-xl mb-4"></i>
+                    <h4 class="text-white font-serif text-lg mb-2">Long-Term Quality</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        "Jaya instantly understood what my hair needed... Even six months later, my hair has grown out beautifully while keeping its shape. You don’t just leave with incredible hair; you also leave having met an amazing soul."
+                    </p>
+                    <span class="text-xs text-pink-300 uppercase tracking-widest">— Anica W.</span>
+                </div>
+
+                <!-- 6 -->
+                <div class="masonry-item bg-[#0c261f] p-6 rounded-sm border border-white/5 break-inside-avoid">
+                    <i class="fas fa-quote-left text-pink-300 text-xl mb-4"></i>
+                    <h4 class="text-white font-serif text-lg mb-2">Low-Maintenance Wizardry</h4>
+                    <p class="text-gray-400 text-sm leading-relaxed mb-4">
+                        "Jaya is a hair wizard who actually listens. She gives you a haircut that does not require a lot of maintenance and still looks good air-dried. mine even grew out perfectly over two years!"
+                    </p>
+                    <span class="text-xs text-pink-300 uppercase tracking-widest">— Yakshi S.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- =======================================================
+         VIEW 5: FAQ
+    ======================================================== -->
+    <div id="faq" class="section-view">
+        <div class="max-w-[1000px] mx-auto px-6 pb-24">
+            <h2 class="text-5xl text-white font-serif mb-12 text-center">Frequently Asked Questions</h2>
+            
+            <div class="grid md:grid-cols-2 gap-6">
+                <!-- Column 1 -->
+                <div class="space-y-4">
+                    <div class="bg-[#0c261f] p-4 rounded-sm cursor-pointer" onclick="toggleAccordion('faq-1')">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-white font-serif">Why does a haircut take 2-3 hours?</h4>
+                            <i class="fas fa-plus text-pink-300 text-xs"></i>
+                        </div>
+                        <div id="faq-1" class="accordion-content">
+                            <p class="text-sm text-gray-400 leading-relaxed">She focusses on renovation rather than maintenance. Time is spent understanding your hair's history, its growth patterns, and your habits. Cutting with extreme precision honours your identity.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0c261f] p-4 rounded-sm cursor-pointer" onclick="toggleAccordion('faq-2')">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-white font-serif">Why are prices higher?</h4>
+                            <i class="fas fa-plus text-pink-300 text-xs"></i>
+                        </div>
+                        <div id="faq-2" class="accordion-content">
+                            <p class="text-sm text-gray-400 leading-relaxed">Scissorbella offers longevity. While a standard cut may last from 1 to 6 weeks, a Scissorbella cut may endure for at least 3 to even 12 months. It's the economical choice when calculating "cost per wear".</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0c261f] p-4 rounded-sm cursor-pointer" onclick="toggleAccordion('faq-3')">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-white font-serif">Will you blow-dry my hair straight?</h4>
+                            <i class="fas fa-plus text-pink-300 text-xs"></i>
+                        </div>
+                        <div id="faq-3" class="accordion-content">
+                            <p class="text-sm text-gray-400 leading-relaxed">Scissorbella’s signature is honest hair true to its natural texture. We refrain from harsh round brush blow drying. However, we offer wash & style as a separate service for special occasions.</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 -->
+                <div class="space-y-4">
+                    <div class="bg-[#0c261f] p-4 rounded-sm cursor-pointer" onclick="toggleAccordion('faq-4')">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-white font-serif">Do you never use heat?</h4>
+                            <i class="fas fa-plus text-pink-300 text-xs"></i>
+                        </div>
+                        <div id="faq-4" class="accordion-content">
+                            <p class="text-sm text-gray-400 leading-relaxed">We use heat purely as a technical tool in two instances: Precision Check on straight cuts to identify flaws, and diffusing curly hair to see the final texture.</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0c261f] p-4 rounded-sm cursor-pointer" onclick="toggleAccordion('faq-5')">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-white font-serif">Do you use only natural products?</h4>
+                            <i class="fas fa-plus text-pink-300 text-xs"></i>
+                        </div>
+                        <div id="faq-5" class="accordion-content">
+                            <p class="text-sm text-gray-400 leading-relaxed">We avoid trendy greenwashing. We use eco-ethical formulations that are effective and safe, rather than fearing all "chemicals". Water is a chemical too!</p>
+                        </div>
+                    </div>
+
+                    <div class="bg-[#0c261f] p-4 rounded-sm cursor-pointer" onclick="toggleAccordion('faq-6')">
+                        <div class="flex justify-between items-center mb-2">
+                            <h4 class="text-white font-serif">Who is the "Trespassers' Club" for?</h4>
+                            <i class="fas fa-plus text-pink-300 text-xs"></i>
+                        </div>
+                        <div id="faq-6" class="accordion-content">
+                            <p class="text-sm text-gray-400 leading-relaxed">If you understand the value of Slow Luxury, then it’s for you. No expiry deadline, shareable, and you pay less to get more!</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- EMBEDDED BOOKING FORM (Keep existing logic but move to bottom) -->
+    <section id="booking-form-section" class="bg-[#0c261f] py-24 border-t border-white/5">
+        <div class="max-w-6xl mx-auto px-6">
+            <div class="grid md:grid-cols-2 gap-16 items-center">
+                <div>
+                    <span class="text-pink-300 uppercase tracking-widest text-xs mb-2 block">Ready for Slow Luxury?</span>
+                    <h2 class="text-4xl md:text-5xl text-white font-serif mb-6">Book Your Session</h2>
+                    <p class="text-gray-400 mb-8 leading-relaxed">
+                        Appointments are highly sought after. Provide your details, and we will direct you to WhatsApp to finalize your slot.
+                    </p>
+                </div>
+                
+                <div class="bg-[#051A14] p-8 md:p-10 rounded-sm border border-white/10 shadow-2xl relative">
+                    <form onsubmit="handleBooking(event)" class="space-y-5 relative z-10">
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Name</label>
+                            <input type="text" id="home-name" class="input-chic" placeholder="Your Name" required>
+                        </div>
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Service Interest</label>
+                            <select id="home-service" class="input-chic text-gray-400">
+                                <option>Explore (Consultation)</option>
+                                <option>Bespoke Premium Cut</option>
+                                <option>Premium Creative Colour</option>
+                                <option>Haircare Ritual</option>
+                                <option>Membership Inquiry</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="text-[10px] uppercase tracking-widest text-gray-500 mb-2 block">Preferred Timing</label>
+                            <select id="home-time" class="input-chic text-gray-400">
+                                <option>Morning (11am - 2pm)</option>
+                                <option>Afternoon (2pm - 5pm)</option>
+                                <option>Evening (5pm - 7pm)</option>
+                            </select>
+                        </div>
+                        <button type="submit" class="w-full btn-fill mt-4">Check Availability <i class="fab fa-whatsapp ml-2"></i></button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mobile Floating Bottom Nav -->
+    <div class="fixed bottom-6 left-6 right-6 z-50 md:hidden">
+        <div class="bg-[#051A14] rounded-full shadow-2xl border border-white/10 flex items-center justify-between p-1.5 px-4 backdrop-blur-md">
+            <!-- Menu -->
+            <button onclick="toggleMobileMenu()" class="flex flex-col items-center justify-center text-white/80 hover:text-pink-300 w-12 gap-1">
+                <i class="fas fa-bars text-lg"></i>
+                <span class="text-[8px] uppercase tracking-wider">Menu</span>
+            </button>
+            <!-- Book -->
+            <button onclick="scrollToElement('booking-form-section')" class="bg-[#FABEC0] text-[#051A14] rounded-full px-6 py-3 font-bold text-[10px] uppercase tracking-widest shadow-lg mx-2 flex-grow">
+                Book Appointment
+            </button>
+            <!-- Call -->
+            <a href="tel:919819147870" class="flex flex-col items-center justify-center text-white/80 hover:text-pink-300 w-12 gap-1">
+                <i class="fas fa-phone text-lg"></i>
+                <span class="text-[8px] uppercase tracking-wider">Call</span>
+            </a>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-white/5 py-16 bg-[#030f0c] mb-24 md:mb-0">
+        <div class="max-w-[1400px] mx-auto px-6 grid md:grid-cols-4 gap-12">
+            <!-- Brand -->
+            <div class="md:col-span-1">
+                <div class="flex items-center gap-2 mb-6 opacity-80">
+                    <img src="Logo.png" class="h-8 grayscale border border-white/20">
+                    <span class="text-xs uppercase tracking-widest text-white">Scissorbella</span>
+                </div>
+                <p class="text-xs text-gray-500 leading-relaxed mb-6">
+                    Slow Luxury Hair. Gender Neutral. Zero Heat.
+                </p>
+                <div class="flex gap-4">
+                    <a href="https://www.instagram.com/scissor.bella/" target="_blank" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-pink-300 hover:border-pink-300 transition-all"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/hairbyscissorbella/" target="_blank" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-pink-300 hover:border-pink-300 transition-all"><i class="fab fa-facebook-f"></i></a>
+                    <a href="https://wa.me/919819147870" target="_blank" class="w-8 h-8 rounded-full border border-white/10 flex items-center justify-center text-gray-400 hover:text-pink-300 hover:border-pink-300 transition-all"><i class="fab fa-whatsapp"></i></a>
+                </div>
+            </div>
+
+            <!-- Links -->
+            <div>
+                <h4 class="text-white font-serif mb-4">Explore</h4>
+                <ul class="space-y-2 text-xs text-gray-500 uppercase tracking-wider">
+                    <li class="hover:text-pink-300 cursor-pointer" onclick="navigateTo('home')">Home</li>
+                    <li class="hover:text-pink-300 cursor-pointer" onclick="navigateTo('about')">Story</li>
+                    <li class="hover:text-pink-300 cursor-pointer" onclick="navigateTo('services')">Services</li>
+                    <li class="hover:text-pink-300 cursor-pointer" onclick="navigateTo('testimonials')">Reviews</li>
+                </ul>
+            </div>
+
+            <!-- Services -->
+            <div>
+                <h4 class="text-white font-serif mb-4">Specialties</h4>
+                <ul class="space-y-2 text-xs text-gray-500 uppercase tracking-wider">
+                    <li>Dry Cutting</li>
+                    <li>Slow Colouring</li>
+                    <li>Natural Texture</li>
+                    <li>Restoration</li>
+                </ul>
+            </div>
+
+            <!-- Find Us -->
+            <div>
+                <h4 class="text-white font-serif mb-4">Find Us</h4>
+                <p class="text-xs text-gray-500 leading-relaxed mb-2">
+                    D’Silva Villa 253<br>
+                    Fernandes Vaddo<br>
+                    Siolim, Goa 403517
+                </p>
+                <a href="https://maps.app.goo.gl/E2Rc3vkRTHFEZh54A" target="_blank" class="text-pink-300 text-xs underline">Get Directions</a>
+            </div>
+        </div>
+        
+        <div class="max-w-[1400px] mx-auto px-6 mt-16 pt-8 border-t border-white/5 flex flex-col md:flex-row justify-between items-center text-[10px] text-gray-600 uppercase tracking-widest">
+            <p>&copy; 2026 Scissorbella by Jaya. All rights reserved.</p>
+            <p>Slow is the Real Fast.</p>
+        </div>
+    </footer>
+
+    <!-- JAVASCRIPT -->
+    <script>
+        function toggleMobileMenu() {
+            const menu = document.getElementById('mobile-menu');
+            menu.classList.toggle('hidden');
+        }
+
+        function toggleAccordion(id) {
+            const content = document.getElementById(id);
+            if (content.classList.contains('open')) {
+                content.classList.remove('open');
+            } else {
+                // Close others if you want exclusive accordion, otherwise remove this line
+                // document.querySelectorAll('.accordion-content').forEach(ac => ac.classList.remove('open'));
+                content.classList.add('open');
+            }
+        }
+
+        function scrollToElement(elementId) {
+            const element = document.getElementById(elementId);
+            if (element) {
+                const navHeight = document.getElementById('navbar').offsetHeight;
+                const elementPosition = element.getBoundingClientRect().top;
+                const offsetPosition = elementPosition + window.pageYOffset - navHeight;
+                
+                window.scrollTo({
+                    top: offsetPosition,
+                    behavior: "smooth"
+                });
+            }
+        }
+
+        function navigateTo(pageId) {
+            // Remove active class from all links
+            document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active-link'));
+            
+            // Add active class to current link
+            const currentLink = document.getElementById('nav-' + pageId);
+            if(currentLink) currentLink.classList.add('active-link');
+
+            // Hide all views
+            document.querySelectorAll('.section-view').forEach(view => {
+                view.classList.remove('active');
+                view.style.display = 'none';
+            });
+
+            // Show target view with animation
+            const target = document.getElementById(pageId);
+            if(target) {
+                target.style.display = 'block';
+                setTimeout(() => {
+                    target.classList.add('active');
+                }, 10);
+            }
+            
+            window.scrollTo(0,0);
+        }
+
+        function handleBooking(e) {
+            e.preventDefault();
+            
+            let name = document.getElementById('home-name').value;
+            let service = document.getElementById('home-service').value;
+            let time = document.getElementById('home-time').value;
+
+            // Construct WhatsApp Message
+            const phone = "919819147870";
+            const text = `Hi Scissorbella! My name is ${name}. I'd like to book a ${service}. I prefer ${time} slots. Is this available?`;
+            
+            window.location.href = `https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+        }
+
+        // Init
+        document.addEventListener('DOMContentLoaded', () => {
+            navigateTo('home');
+        });
+    </script>
+</body>
+</html>
